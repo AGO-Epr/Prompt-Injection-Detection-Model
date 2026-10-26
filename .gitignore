@@ -1,0 +1,6 @@
+# Large pretrained model files
+models/*.kv
+models/*.kv.vectors.npy
+venv/
+.venv/
+__pycache__/
