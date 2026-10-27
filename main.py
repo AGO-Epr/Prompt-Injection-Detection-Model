@@ -16,23 +16,15 @@ from sklearn.metrics import (
     confusion_matrix,
 )
 
-# ==========================================
-# 1. Load the dataset
-# ==========================================
-
-print("Loading dataset.csv...")
-
 df = pd.read_csv("dataset.csv")
 
-# Keep only the required columns
 df = df[["text", "label"]]
 
-# Clean missing and empty values
+
 df = df.dropna(subset=["text", "label"])
 df["text"] = df["text"].astype(str).str.strip()
 df = df[df["text"] != ""]
 
-# Ensure labels are numeric
 df["label"] = pd.to_numeric(df["label"], errors="raise")
 
 if not df["label"].isin([0, 1]).all():
@@ -40,32 +32,16 @@ if not df["label"].isin([0, 1]).all():
 
 df["label"] = df["label"].astype(int)
 
-# Remove duplicate prompts
+
 df = df.drop_duplicates(subset=["text"]).reset_index(drop=True)
 
 print("Dataset shape:", df.shape)
 print("\nLabel distribution:")
 print(df["label"].value_counts())
 
-# Confirm label meanings before training:
-# 0 = benign
-# 1 = prompt injection
-
-# ==========================================
-# 2. Load pretrained Word2Vec
-# ==========================================
-
-print("\nLoading Word2Vec model...")
-print("The first download may take some time.")
 
 wv = api.load("word2vec-google-news-300")
 
-print("Word2Vec loaded!")
-print("Vector dimensions:", wv.vector_size)
-
-# ==========================================
-# 3. Convert each prompt to a 300-D vector
-# ==========================================
 
 def get_sentence_vector(text, wv):
     # Tokenize while retaining original capitalization
@@ -95,8 +71,6 @@ def get_sentence_vector(text, wv):
     return np.mean(vectors, axis=0).astype(np.float32)
 
 
-print("\nConverting prompts into vectors...")
-
 X = np.vstack([
     get_sentence_vector(text, wv)
     for text in df["text"]
@@ -107,11 +81,6 @@ y = df["label"].to_numpy()
 print("Feature matrix shape:", X.shape)
 print("Label array shape:", y.shape)
 
-# Expected feature shape: (number_of_prompts, 300)
-
-# ==========================================
-# 4. Split into training and testing data
-# ==========================================
 
 X_train, X_test, y_train, y_test = train_test_split(
     X,
@@ -121,14 +90,6 @@ X_train, X_test, y_train, y_test = train_test_split(
     stratify=y
 )
 
-print("\nTraining samples:", len(X_train))
-print("Testing samples:", len(X_test))
-
-# ==========================================
-# 5. Train the classifier
-# ==========================================
-
-print("\nTraining Logistic Regression...")
 
 model = LogisticRegression(
     max_iter=1000,
@@ -137,12 +98,6 @@ model = LogisticRegression(
 )
 
 model.fit(X_train, y_train)
-
-print("Training complete!")
-
-# ==========================================
-# 6. Evaluate the model
-# ==========================================
 
 y_pred = model.predict(X_test)
 
