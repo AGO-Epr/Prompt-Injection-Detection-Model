@@ -132,5 +132,3 @@ print(f"Actual Injection {cm[1, 0]:6d}  {cm[1, 1]:9d}")
 
 print("\nFalse positives:", cm[0, 1])
 print("False negatives:", cm[1, 0])
-
-print("\nEvaluation completed!")
