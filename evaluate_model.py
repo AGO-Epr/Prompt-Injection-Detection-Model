@@ -16,22 +16,10 @@ from sklearn.metrics import (
 )
 
 
-# ==========================================
-# 1. Load the saved models
-# ==========================================
-
-print("Loading saved models...")
-
 model = joblib.load("models/prompt_injection_model.joblib")
 
 wv = KeyedVectors.load("models/word2vec_model.kv")
 
-print("Models loaded successfully!")
-
-
-# ==========================================
-# 2. Define the same vectorization function
-# ==========================================
 
 def get_sentence_vector(text, wv):
     words = re.findall(r"[A-Za-z0-9_]+", str(text))
@@ -51,11 +39,6 @@ def get_sentence_vector(text, wv):
     return np.mean(vectors, axis=0).astype(np.float32)
 
 
-# ==========================================
-# 3. Load and clean the dataset
-# ==========================================
-
-print("\nLoading dataset.csv...")
 
 df = pd.read_csv("dataset.csv")
 df = df[["text", "label"]].dropna()
@@ -74,10 +57,6 @@ df = df.drop_duplicates(subset=["text"]).reset_index(drop=True)
 print("Dataset shape:", df.shape)
 
 
-# ==========================================
-# 4. Recreate the same test split
-# ==========================================
-
 X = np.vstack([
     get_sentence_vector(text, wv)
     for text in df["text"]
@@ -93,19 +72,9 @@ X_train, X_test, y_train, y_test = train_test_split(
     stratify=y
 )
 
-
-# ==========================================
-# 5. Predict using the saved model
-# ==========================================
-
-print("\nCalculating predictions...")
-
 y_pred = model.predict(X_test)
 
 
-# ==========================================
-# 6. Calculate evaluation metrics
-# ==========================================
 train_pred = model.predict(X_train)
 
 print(
@@ -133,10 +102,6 @@ injection_f1 = f1_score(
 )
 
 
-# ==========================================
-# 7. Display results
-# ==========================================
-
 print("\n========== MODEL METRICS ==========")
 
 print(f"Accuracy:            {accuracy:.4f} ({accuracy * 100:.2f}%)")
@@ -156,10 +121,6 @@ print(classification_report(
     digits=4
 ))
 
-
-# ==========================================
-# 8. Display confusion matrix
-# ==========================================
 
 cm = confusion_matrix(y_test, y_pred, labels=[0, 1])
 
