@@ -1,6 +1,44 @@
-# Large pretrained model files
-models/*.kv
-models/*.kv.vectors.npy
+
+# Python virtual environments
 venv/
 .venv/
+env/
+
+# Python cache files
 __pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Original Word2Vec model files (large)
+models/*.kv
+models/*.kv.vectors.npy
+
+# DistilBERT model weights and tokenizer files
+models/distilbert_model/
+
+
+# Training checkpoints
+checkpoint-*/
+output/
+runs/
+logs/
+
+# Generated test data and predictions
+data/distilbert_test.csv
+data/distilbert_final_test.csv
+data/distilbert_final_predictions.csv
+
+# Temporary files
+*.log
+*.tmp
+
+# Environment variables and secrets
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
