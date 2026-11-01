@@ -3,3 +3,18 @@ pandas
 scikit-learn
 gensim
 joblib
+
+# Deep Learning
+torch>=2.0.0
+
+# Hugging Face Transformers
+transformers>=4.40.0,<6.0.0
+accelerate>=0.30.0
+safetensors>=0.4.0
+
+# Data Processing
+pandas>=2.0.0
+numpy>=1.26.0
+
+# Machine Learning and Evaluation
+scikit-learn>=1.4.0
