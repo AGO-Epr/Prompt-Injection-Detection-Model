@@ -1,39 +1,36 @@
-
 # Python virtual environments
 venv/
 .venv/
 env/
 
-# Python cache files
+# Python cache
 __pycache__/
 *.py[cod]
-*$py.class
 
-# Jupyter Notebook
-.ipynb_checkpoints/
-
-# Original Word2Vec model files (large)
+# Previous Word2Vec model files
 models/*.kv
 models/*.kv.vectors.npy
+models/prompt_injection_model.joblib
 
-# DistilBERT model weights and tokenizer files
-models/distilbert_model/
+# Previous Word2Vec model code
+main.py
+evaluate_model.py
 
+# Previous model-related files
+Docs/Overview.md
+Docs/prompt_injection_detection_model_report.docx
 
-# Training checkpoints
-checkpoint-*/
-output/
-runs/
-logs/
-
-# Generated test data and predictions
+# Generated data and predictions
 data/distilbert_test.csv
 data/distilbert_final_test.csv
 data/distilbert_final_predictions.csv
 
-# Temporary files
+# Training checkpoints and logs
+checkpoint-*/
+output/
+runs/
+logs/
 *.log
-*.tmp
 
 # Environment variables and secrets
 .env
@@ -42,3 +39,8 @@ data/distilbert_final_predictions.csv
 # OS files
 .DS_Store
 Thumbs.db
+
+# Previous Word2Vec model code
+main.py
+evaluate_model.py
+prediction.py
